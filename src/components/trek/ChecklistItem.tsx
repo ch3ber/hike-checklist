@@ -1,7 +1,7 @@
 import { animate } from 'animejs'
 import { useRef, type Dispatch, type SetStateAction, type TouchEvent as ReactTouchEvent } from 'react'
 import type { TrekItem, TrekState } from '../../types/trek'
-import { formatPreciseWeight, getQuantity, getWeight } from './trek-utils'
+import { getDisplayWeight, getQuantity, getWeight } from './trek-utils'
 
 type ChecklistItemProps = {
   item: TrekItem
@@ -19,6 +19,7 @@ export function ChecklistItem({ item, custom, state, setState }: ChecklistItemPr
   const discarded = Boolean(state.off[item.id])
   const quantity = getQuantity(item, state)
   const weight = getWeight(item, state)
+  const displayWeight = getDisplayWeight(weight, true)
 
   const toggleChecked = () => {
     if (discarded) return
@@ -132,7 +133,7 @@ export function ChecklistItem({ item, custom, state, setState }: ChecklistItemPr
         <span>{discarded ? 'RESTAURAR' : 'DESCARTAR'}</span>
       </div>
       <div
-        className="row-in"
+        className={`row-in ${item.q ? 'has-qty' : ''} ${custom ? 'has-delete' : ''}`}
         ref={inner}
         onClick={(event) => {
           if ((event.target as Element).closest('input,button')) return
@@ -145,44 +146,45 @@ export function ChecklistItem({ item, custom, state, setState }: ChecklistItemPr
           type="button"
           role="checkbox"
           aria-checked={checked}
-          aria-label={item.n}
+          aria-disabled={discarded}
+          aria-label={`Empacar ${item.n}`}
           onClick={toggleChecked}
         />
         <div className="rt">
           <div className="rn">{item.n}</div>
           {item.note ? <div className="rnote">{item.note}</div> : null}
-          {item.q ? (
-            <div className="qty">
-              <button
-                className="qb"
-                type="button"
-                aria-label={`Reducir ${item.n}`}
-                onClick={() => setQuantity(quantity - item.q!.s)}
-              >
-                −
-              </button>
-              <input
-                className="qv"
-                type="number"
-                inputMode="decimal"
-                aria-label={`Cantidad en ${item.q.u}`}
-                min={item.q.min}
-                step={item.q.s}
-                value={quantity}
-                onChange={(event) => setQuantity(Number(event.target.value))}
-              />
-              <button
-                className="qb"
-                type="button"
-                aria-label={`Aumentar ${item.n}`}
-                onClick={() => setQuantity(quantity + item.q!.s)}
-              >
-                +
-              </button>
-              <span className="qlab">{item.q.u}</span>
-            </div>
-          ) : null}
         </div>
+        {item.q ? (
+          <div className="qty">
+            <button
+              className="qb"
+              type="button"
+              aria-label={`Reducir ${item.n}`}
+              onClick={() => setQuantity(quantity - item.q!.s)}
+            >
+              −
+            </button>
+            <input
+              className="qv"
+              type="number"
+              inputMode="decimal"
+              aria-label={`Cantidad en ${item.q.u}`}
+              min={item.q.min}
+              step={item.q.s}
+              value={quantity}
+              onChange={(event) => setQuantity(Number(event.target.value))}
+            />
+            <button
+              className="qb"
+              type="button"
+              aria-label={`Aumentar ${item.n}`}
+              onClick={() => setQuantity(quantity + item.q!.s)}
+            >
+              +
+            </button>
+            <span className="qlab">{item.q.u}</span>
+          </div>
+        ) : null}
         <div className="wc">
           <input
             className="wi"
@@ -190,20 +192,21 @@ export function ChecklistItem({ item, custom, state, setState }: ChecklistItemPr
             inputMode="decimal"
             aria-label={`Peso total de ${item.n} en kilos`}
             min="0"
-            step="0.005"
-            value={formatPreciseWeight(weight)}
+            step={displayWeight.unit === 'G' ? '1' : '0.005'}
+            value={displayWeight.value}
             onFocus={(event) => event.currentTarget.select()}
-            onChange={(event) => setTotalWeight(Number(event.target.value))}
+            onChange={(event) => setTotalWeight(Number(event.target.value) * displayWeight.multiplier)}
           />
-          <span className="wu">KG</span>
+          <span className="wu">{displayWeight.unit}</span>
         </div>
         <button
-          className="act"
+          className="act discard-action"
           type="button"
           aria-label={`${discarded ? 'Restaurar' : 'Descartar'} ${item.n}`}
           onClick={toggleDiscarded}
         >
-          {discarded ? '↺' : '⊘'}
+          <span aria-hidden="true">{discarded ? '↺' : '−'}</span>
+          <span>{discarded ? 'Volver' : 'Quitar'}</span>
         </button>
         {custom ? (
           <button

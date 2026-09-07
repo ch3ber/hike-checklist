@@ -5,9 +5,10 @@ import { formatWeight } from './trek-utils'
 
 type HudProps = {
   totals: TrekTotals
+  saveStatus: 'loading' | 'saving' | 'saved'
 }
 
-export function Hud({ totals }: HudProps) {
+export function Hud({ totals, saveStatus }: HudProps) {
   const weight = useRef<HTMLDivElement>(null)
   const animatedWeight = useRef(0)
   const percentage = totals.total ? Math.round((totals.done / totals.total) * 100) : 0
@@ -46,6 +47,9 @@ export function Hud({ totals }: HudProps) {
           <span className="dot" />
           <span>TREK//SYS</span>
           <span className="sep" />
+          <span className={`save-state ${saveStatus}`}>
+            {saveStatus === 'saving' ? 'GUARDANDO' : saveStatus === 'saved' ? 'GUARDADO' : 'CARGANDO'}
+          </span>
           <span>{date}</span>
         </div>
         <div className="hud-mid">
@@ -58,7 +62,7 @@ export function Hud({ totals }: HudProps) {
           <div className="kg-u">KG</div>
           <div className="hud-stats">
             <div>
-              <b>{totals.done}</b> ítems cargados
+              <b>{totals.done}</b> ítems empacados
             </div>
             <div>
               <b>{percentage}%</b> ·{' '}
@@ -68,13 +72,20 @@ export function Hud({ totals }: HudProps) {
             </div>
           </div>
         </div>
-        <div className="bar">
+        <div
+          className="bar"
+          role="progressbar"
+          aria-label="Progreso de empacado"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={percentage}
+        >
           <i style={{ width: `${percentage}%` }} />
         </div>
         {totals.ghost ? (
           <div className="warn on">
-            ⚠ {totals.ghost} ítem{totals.ghost > 1 ? 's marcados' : ' marcado'} en Frío, que está apagado. No
-            cuenta
+            ⚠ {totals.ghost} ítem{totals.ghost > 1 ? 's empacados' : ' empacado'} en Frío, que está apagado.
+            No cuenta
             {totals.ghost > 1 ? 'n' : ''} en el peso.
           </div>
         ) : (

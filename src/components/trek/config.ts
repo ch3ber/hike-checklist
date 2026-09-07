@@ -11,6 +11,6 @@ export const EMPTY_STATE: TrekState = {
   wov: {},
   off: {},
   prof: {},
-  open: {},
+  open: { personales: true },
   extra: [],
 }

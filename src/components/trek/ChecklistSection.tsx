@@ -3,7 +3,7 @@ import { useRef, type Dispatch, type SetStateAction } from 'react'
 import type { SectionStats, TrekItem, TrekSection, TrekState } from '../../types/trek'
 import { AddItemForm } from './AddItemForm'
 import { ChecklistItem } from './ChecklistItem'
-import { formatPreciseWeight } from './trek-utils'
+import { getDisplayWeight } from './trek-utils'
 
 type ChecklistSectionProps = {
   section: TrekSection
@@ -11,17 +11,28 @@ type ChecklistSectionProps = {
   state: TrekState
   setState: Dispatch<SetStateAction<TrekState>>
   onMessage: (message: string) => void
+  forceOpen?: boolean
 }
 
-export function ChecklistSection({ section, stats, state, setState, onMessage }: ChecklistSectionProps) {
+export function ChecklistSection({
+  section,
+  stats,
+  state,
+  setState,
+  onMessage,
+  forceOpen = false,
+}: ChecklistSectionProps) {
   const body = useRef<HTMLDivElement>(null)
   const open = Boolean(state.open[section.id])
+  const expanded = forceOpen || open
   const custom = section.type === 'custom'
+  const displayWeight = getDisplayWeight(stats.kg)
+  const panelId = `section-${section.id}`
 
   if (section.prof && !state.prof[section.prof]) return null
 
   const toggle = () => {
-    const nextOpen = !open
+    const nextOpen = !expanded
     setState((current) => ({
       ...current,
       open: { ...current.open, [section.id]: nextOpen },
@@ -49,19 +60,21 @@ export function ChecklistSection({ section, stats, state, setState, onMessage }:
 
   return (
     <section
-      className={`sec ${open ? 'open' : ''} ${custom ? 'custom' : ''}`}
+      className={`sec ${expanded ? 'open' : ''} ${custom ? 'custom' : ''}`}
       data-profile={section.prof}
     >
       <button
         className="sh"
         type="button"
-        aria-expanded={open}
+        aria-expanded={expanded}
+        aria-controls={panelId}
+        disabled={forceOpen}
         onClick={toggle}
       >
         <span className="sh-t">
           <span className="sh-name">{section.t}</span>
           <span className="sh-meta">
-            {stats.done} de {stats.total} listos
+            {stats.done} de {stats.total} empacados
             {stats.off ? (
               <span className="dsc">
                 {' '}
@@ -71,12 +84,16 @@ export function ChecklistSection({ section, stats, state, setState, onMessage }:
           </span>
         </span>
         <span className="sh-kg">
-          {formatPreciseWeight(stats.kg)} <small>KG</small>
+          {displayWeight.value} <small>{displayWeight.unit}</small>
         </span>
-        <span className="caret" />
+        <span
+          className="caret"
+          aria-hidden="true"
+        />
       </button>
-      {open ? (
+      {expanded ? (
         <div
+          id={panelId}
           className="sb"
           ref={body}
         >

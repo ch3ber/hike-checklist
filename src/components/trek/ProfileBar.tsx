@@ -43,7 +43,7 @@ export function ProfileBar({ state, setState }: ProfileBarProps) {
           {profile.name}
         </button>
       ))}
-      <span className="hint">activa si hará frío</span>
+      <span className="hint">añade equipo para frío</span>
     </div>
   )
 }

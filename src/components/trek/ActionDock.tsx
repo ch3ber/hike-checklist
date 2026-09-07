@@ -15,16 +15,17 @@ export function ActionDock({ onOpenManifest, onReset }: ActionDockProps) {
           type="button"
           onClick={onOpenManifest}
         >
-          VER CARGA
+          VER EMPACADOS
         </button>
         <button
           className="btn btn-g"
           type="button"
-          title="Desmarcar todo"
-          aria-label="Desmarcar todo"
+          title="Reiniciar empacados"
+          aria-label="Reiniciar empacados"
           onClick={onReset}
         >
-          ✕
+          <span aria-hidden="true">↺</span>
+          <span>REINICIAR</span>
         </button>
       </div>
     </nav>

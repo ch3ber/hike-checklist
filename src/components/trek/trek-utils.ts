@@ -4,6 +4,37 @@ export const formatWeight = (value: number) => value.toFixed(value < 10 ? 2 : 1)
 
 export const formatPreciseWeight = (value: number) => value.toFixed(3)
 
+export type DisplayWeight = {
+  value: string
+  unit: 'G' | 'KG'
+  multiplier: number
+}
+
+/**
+ * Business rule: weights up to 999 g are shown in grams. From 1 kg onward,
+ * they are shown in kilograms. Values continue to be stored in kilograms.
+ */
+export function getDisplayWeight(weightInKg: number, editable = false): DisplayWeight {
+  if (weightInKg <= 0.999) {
+    return {
+      value: String(Math.round(weightInKg * 1000)),
+      unit: 'G',
+      multiplier: 0.001,
+    }
+  }
+
+  return {
+    value: editable ? formatPreciseWeight(weightInKg) : formatWeight(weightInKg),
+    unit: 'KG',
+    multiplier: 1,
+  }
+}
+
+export const formatDisplayWeight = (weightInKg: number) => {
+  const display = getDisplayWeight(weightInKg)
+  return `${display.value} ${display.unit}`
+}
+
 export const getQuantity = (item: TrekItem, state: TrekState) =>
   item.q ? (state.qty[item.id] ?? item.q.d) : 1
 
@@ -68,9 +99,9 @@ export function buildManifestText(sections: TrekSection[], state: TrekState) {
   })
   const profile = state.prof.frio ? 'FRÍO' : 'SALIDA BASE'
   const lines = [
-    '▓ CARGA — TREK//SYS',
+    '▓ EMPACADOS — TREK//SYS',
     `${date} · ${profile}`,
-    `PESO: ${formatWeight(totals.kg)} KG · ${totals.done} ítems`,
+    `PESO: ${formatWeight(totals.kg)} KG · ${totals.done} empacados`,
   ]
 
   for (const section of sections) {
@@ -80,10 +111,10 @@ export function buildManifestText(sections: TrekSection[], state: TrekState) {
     const sectionWeight = items.reduce((sum, item) => sum + getWeight(item, state), 0)
     lines.push(
       '',
-      `// ${section.t.toUpperCase()} — ${formatPreciseWeight(sectionWeight)} kg`,
+      `// ${section.t.toUpperCase()} — ${formatDisplayWeight(sectionWeight)}`,
       ...items.map(
         (item) =>
-          `· ${item.n}${item.q ? ` (${getQuantity(item, state)} ${item.q.u})` : ''} — ${formatPreciseWeight(getWeight(item, state))} kg`,
+          `· ${item.n}${item.q ? ` (${getQuantity(item, state)} ${item.q.u})` : ''} — ${formatDisplayWeight(getWeight(item, state))}`,
       ),
     )
   }

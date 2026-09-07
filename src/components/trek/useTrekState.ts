@@ -18,19 +18,23 @@ function loadState(): TrekState {
 export function useTrekState() {
   const [state, setState] = useState<TrekState>(EMPTY_STATE)
   const [hydrated, setHydrated] = useState(false)
+  const [saveStatus, setSaveStatus] = useState<'loading' | 'saving' | 'saved'>('loading')
 
   useEffect(() => {
     setState(loadState())
     setHydrated(true)
+    setSaveStatus('saved')
   }, [])
 
   useEffect(() => {
     if (!hydrated) return
+    setSaveStatus('saving')
     const timeout = window.setTimeout(() => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+      setSaveStatus('saved')
     }, 160)
     return () => window.clearTimeout(timeout)
   }, [hydrated, state])
 
-  return [state, setState] as const
+  return [state, setState, saveStatus] as const
 }

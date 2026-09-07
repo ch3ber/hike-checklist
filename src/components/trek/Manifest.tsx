@@ -4,7 +4,7 @@ import type { TrekItem, TrekSection, TrekState } from '../../types/trek'
 import {
   buildManifestText,
   calculateTotals,
-  formatPreciseWeight,
+  formatDisplayWeight,
   formatWeight,
   getQuantity,
   getWeight,
@@ -42,11 +42,26 @@ export function Manifest({ sections, state, onClose, onMessage }: ManifestProps)
   }, [groups, state])
 
   useEffect(() => {
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null
     document.body.style.overflow = 'hidden'
-    const closeOnEscape = (event: KeyboardEvent) => {
+    const handleDialogKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose()
+      if (event.key !== 'Tab' || !dialog.current) return
+      const focusable = dialog.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      )
+      if (!focusable.length) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
     }
-    document.addEventListener('keydown', closeOnEscape)
+    document.addEventListener('keydown', handleDialogKey)
     requestAnimationFrame(() => {
       dialog.current?.querySelector<HTMLButtonElement>('.x')?.focus()
       if (dialog.current && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -61,7 +76,8 @@ export function Manifest({ sections, state, onClose, onMessage }: ManifestProps)
     })
     return () => {
       document.body.style.overflow = ''
-      document.removeEventListener('keydown', closeOnEscape)
+      document.removeEventListener('keydown', handleDialogKey)
+      previouslyFocused?.focus()
     }
   }, [onClose])
 
@@ -80,7 +96,7 @@ export function Manifest({ sections, state, onClose, onMessage }: ManifestProps)
       return
     }
     try {
-      await navigator.share({ title: 'Carga — TREK//SYS', text })
+      await navigator.share({ title: 'Empacados — TREK//SYS', text })
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') return
       await copy()
@@ -92,7 +108,7 @@ export function Manifest({ sections, state, onClose, onMessage }: ManifestProps)
       className="ov on"
       role="dialog"
       aria-modal="true"
-      aria-label="Carga actual"
+      aria-labelledby="manifest-title"
       onClick={(event) => event.target === event.currentTarget && onClose()}
     >
       <div
@@ -100,7 +116,7 @@ export function Manifest({ sections, state, onClose, onMessage }: ManifestProps)
         ref={dialog}
       >
         <div className="mo-h">
-          <h2>CARGA ACTUAL</h2>
+          <h2 id="manifest-title">EQUIPO EMPACADO</h2>
           <button
             className="x"
             type="button"
@@ -112,8 +128,8 @@ export function Manifest({ sections, state, onClose, onMessage }: ManifestProps)
         </div>
         {!groups.length ? (
           <div className="empty">
-            <b>NADA CARGADO</b>
-            Marca los ítems que vas a llevar
+            <b>NADA EMPACADO</b>
+            Empaca los ítems que vas a llevar
             <br />y su peso aparecerá aquí.
           </div>
         ) : (
@@ -123,7 +139,7 @@ export function Manifest({ sections, state, onClose, onMessage }: ManifestProps)
               <div className="kg-u">KG</div>
               <div className="side">
                 <div>
-                  <b>{totals.done}</b> ítems
+                  <b>{totals.done}</b> empacados
                 </div>
                 <div>{state.prof.frio ? 'FRÍO' : 'salida base'}</div>
               </div>
@@ -138,7 +154,7 @@ export function Manifest({ sections, state, onClose, onMessage }: ManifestProps)
                   <h3>
                     <span>{section.t.toUpperCase()}</span>
                     <span className="ln" />
-                    <span className="g">{formatPreciseWeight(sectionWeight)} KG</span>
+                    <span className="g">{formatDisplayWeight(sectionWeight)}</span>
                   </h3>
                   {items.map((item) => (
                     <div
@@ -155,7 +171,7 @@ export function Manifest({ sections, state, onClose, onMessage }: ManifestProps)
                           </em>
                         ) : null}
                       </span>
-                      <span className="mw">{formatPreciseWeight(getWeight(item, state))}</span>
+                      <span className="mw">{formatDisplayWeight(getWeight(item, state))}</span>
                     </div>
                   ))}
                 </div>
@@ -177,7 +193,7 @@ export function Manifest({ sections, state, onClose, onMessage }: ManifestProps)
                         }}
                       />
                     </span>
-                    <span className="hkg">{formatPreciseWeight(getWeight(item, state))}</span>
+                    <span className="hkg">{formatDisplayWeight(getWeight(item, state))}</span>
                   </div>
                 ))}
               </div>
