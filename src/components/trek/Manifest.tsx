@@ -1,6 +1,6 @@
-import { animate, stagger } from "animejs";
-import { useEffect, useMemo, useRef } from "react";
-import type { TrekItem, TrekSection, TrekState } from "../../types/trek";
+import { animate, stagger } from 'animejs'
+import { useEffect, useMemo, useRef } from 'react'
+import type { TrekItem, TrekSection, TrekState } from '../../types/trek'
 import {
   buildManifestText,
   calculateTotals,
@@ -8,96 +8,84 @@ import {
   formatWeight,
   getQuantity,
   getWeight,
-} from "./trek-utils";
+} from './trek-utils'
 
 type ManifestProps = {
-  sections: TrekSection[];
-  state: TrekState;
-  onClose: () => void;
-  onMessage: (message: string) => void;
-};
+  sections: TrekSection[]
+  state: TrekState
+  onClose: () => void
+  onMessage: (message: string) => void
+}
 
-export function Manifest({
-  sections,
-  state,
-  onClose,
-  onMessage,
-}: ManifestProps) {
-  const dialog = useRef<HTMLDivElement>(null);
+export function Manifest({ sections, state, onClose, onMessage }: ManifestProps) {
+  const dialog = useRef<HTMLDivElement>(null)
   const groups = useMemo(
     () =>
       sections
         .filter((section) => !section.prof || state.prof[section.prof])
         .map((section) => ({
           section,
-          items: section.items.filter(
-            (item) => state.chk[item.id] && !state.off[item.id],
-          ),
+          items: section.items.filter((item) => state.chk[item.id] && !state.off[item.id]),
         }))
         .filter((group) => group.items.length),
     [sections, state],
-  );
-  const totals = calculateTotals(sections, state);
-  const text = buildManifestText(sections, state);
+  )
+  const totals = calculateTotals(sections, state)
+  const text = buildManifestText(sections, state)
   const heaviest = useMemo(() => {
-    const items: TrekItem[] = [];
-    for (const group of groups) items.push(...group.items);
+    const items: TrekItem[] = []
+    for (const group of groups) items.push(...group.items)
     return items
       .filter((item) => getWeight(item, state) > 0)
-      .toSorted(
-        (first, second) => getWeight(second, state) - getWeight(first, state),
-      )
-      .slice(0, 5);
-  }, [groups, state]);
+      .toSorted((first, second) => getWeight(second, state) - getWeight(first, state))
+      .slice(0, 5)
+  }, [groups, state])
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden'
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", closeOnEscape);
+      if (event.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', closeOnEscape)
     requestAnimationFrame(() => {
-      dialog.current?.querySelector<HTMLButtonElement>(".x")?.focus();
-      if (
-        dialog.current &&
-        !matchMedia("(prefers-reduced-motion: reduce)").matches
-      ) {
-        animate(dialog.current.querySelectorAll(".mgrp, .heavy, .mo-sum"), {
+      dialog.current?.querySelector<HTMLButtonElement>('.x')?.focus()
+      if (dialog.current && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        animate(dialog.current.querySelectorAll('.mgrp, .heavy, .mo-sum'), {
           opacity: [0, 1],
           translateY: [12, 0],
           duration: 340,
           delay: stagger(35),
-          ease: "outQuad",
-        });
+          ease: 'outQuad',
+        })
       }
-    });
+    })
     return () => {
-      document.body.style.overflow = "";
-      document.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [onClose]);
+      document.body.style.overflow = ''
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [onClose])
 
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(text);
-      onMessage("Copiado al portapapeles");
+      await navigator.clipboard.writeText(text)
+      onMessage('Copiado al portapapeles')
     } catch {
-      onMessage("No se pudo copiar");
+      onMessage('No se pudo copiar')
     }
-  };
+  }
 
   const share = async () => {
     if (!navigator.share) {
-      await copy();
-      return;
+      await copy()
+      return
     }
     try {
-      await navigator.share({ title: "Carga — TREK//SYS", text });
+      await navigator.share({ title: 'Carga — TREK//SYS', text })
     } catch (error) {
-      if (error instanceof DOMException && error.name === "AbortError") return;
-      await copy();
+      if (error instanceof DOMException && error.name === 'AbortError') return
+      await copy()
     }
-  };
+  }
 
   return (
     <div
@@ -107,7 +95,10 @@ export function Manifest({
       aria-label="Carga actual"
       onClick={(event) => event.target === event.currentTarget && onClose()}
     >
-      <div className="mo" ref={dialog}>
+      <div
+        className="mo"
+        ref={dialog}
+      >
         <div className="mo-h">
           <h2>CARGA ACTUAL</h2>
           <button
@@ -134,48 +125,50 @@ export function Manifest({
                 <div>
                   <b>{totals.done}</b> ítems
                 </div>
-                <div>{state.prof.frio ? "FRÍO" : "salida base"}</div>
+                <div>{state.prof.frio ? 'FRÍO' : 'salida base'}</div>
               </div>
             </div>
             {groups.map(({ section, items }) => {
-              const sectionWeight = items.reduce(
-                (sum, item) => sum + getWeight(item, state),
-                0,
-              );
+              const sectionWeight = items.reduce((sum, item) => sum + getWeight(item, state), 0)
               return (
-                <div className="mgrp" key={section.id}>
+                <div
+                  className="mgrp"
+                  key={section.id}
+                >
                   <h3>
                     <span>{section.t.toUpperCase()}</span>
                     <span className="ln" />
-                    <span className="g">
-                      {formatPreciseWeight(sectionWeight)} KG
-                    </span>
+                    <span className="g">{formatPreciseWeight(sectionWeight)} KG</span>
                   </h3>
                   {items.map((item) => (
-                    <div className="mi" key={item.id}>
+                    <div
+                      className="mi"
+                      key={item.id}
+                    >
                       <span>▸</span>
                       <span>
                         {item.n}
                         {item.q ? (
                           <em>
-                            {" "}
+                            {' '}
                             — {getQuantity(item, state)} {item.q.u}
                           </em>
                         ) : null}
                       </span>
-                      <span className="mw">
-                        {formatPreciseWeight(getWeight(item, state))}
-                      </span>
+                      <span className="mw">{formatPreciseWeight(getWeight(item, state))}</span>
                     </div>
                   ))}
                 </div>
-              );
+              )
             })}
             {heaviest.length ? (
               <div className="heavy">
                 <h4>DÓNDE ESTÁ EL PESO</h4>
                 {heaviest.map((item) => (
-                  <div className="hb" key={item.id}>
+                  <div
+                    className="hb"
+                    key={item.id}
+                  >
                     <span className="hn">{item.n}</span>
                     <span className="hbar">
                       <i
@@ -184,18 +177,24 @@ export function Manifest({
                         }}
                       />
                     </span>
-                    <span className="hkg">
-                      {formatPreciseWeight(getWeight(item, state))}
-                    </span>
+                    <span className="hkg">{formatPreciseWeight(getWeight(item, state))}</span>
                   </div>
                 ))}
               </div>
             ) : null}
             <div className="mo-act">
-              <button className="btn" type="button" onClick={share}>
+              <button
+                className="btn"
+                type="button"
+                onClick={share}
+              >
                 COMPARTIR
               </button>
-              <button className="btn btn-copy" type="button" onClick={copy}>
+              <button
+                className="btn btn-copy"
+                type="button"
+                onClick={copy}
+              >
                 COPIAR
               </button>
             </div>
@@ -203,5 +202,5 @@ export function Manifest({
         )}
       </div>
     </div>
-  );
+  )
 }

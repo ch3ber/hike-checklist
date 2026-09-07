@@ -5,7 +5,7 @@
   background: var(--panel);
 }
 .sec::before {
-  content: "";
+  content: '';
   position: absolute;
   z-index: 2;
   top: 0;
@@ -117,22 +117,14 @@
   display: flex;
   align-items: center;
   padding-left: 18px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 46, 91, 0.28),
-    rgba(255, 46, 91, 0.06)
-  );
+  background: linear-gradient(90deg, rgba(255, 46, 91, 0.28), rgba(255, 46, 91, 0.06));
   color: #ff8aa6;
   font-family: var(--f-mono);
   font-size: 11px;
   letter-spacing: 0.18em;
 }
 .row.off .row-bg {
-  background: linear-gradient(
-    90deg,
-    rgba(43, 245, 208, 0.22),
-    rgba(43, 245, 208, 0.05)
-  );
+  background: linear-gradient(90deg, rgba(43, 245, 208, 0.22), rgba(43, 245, 208, 0.05));
   color: var(--cyan);
 }
 .row-in {
@@ -146,11 +138,7 @@
 }
 .row.on .row-in {
   background-color: var(--panel);
-  background-image: linear-gradient(
-    90deg,
-    rgba(43, 245, 208, 0.09),
-    rgba(14, 11, 26, 0) 72%
-  );
+  background-image: linear-gradient(90deg, rgba(43, 245, 208, 0.09), rgba(14, 11, 26, 0) 72%);
 }
 .row.off .row-in {
   background: #0b0917;
@@ -165,14 +153,7 @@
   border: 1.5px solid #38305c;
   background: transparent;
   cursor: pointer;
-  clip-path: polygon(
-    5px 0,
-    100% 0,
-    100% calc(100% - 5px),
-    calc(100% - 5px) 100%,
-    0 100%,
-    0 5px
-  );
+  clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
   transition: 0.16s;
 }
 .cb:focus-visible {
@@ -185,7 +166,7 @@
   box-shadow: 0 0 12px rgba(43, 245, 208, 0.5);
 }
 .cb::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 1.5px;
   left: 5.5px;
@@ -442,25 +423,14 @@
   flex: 1;
   padding: 14px 10px;
   border: 1px solid var(--cyan);
-  background: linear-gradient(
-    100deg,
-    rgba(43, 245, 208, 0.16),
-    rgba(43, 245, 208, 0.05)
-  );
+  background: linear-gradient(100deg, rgba(43, 245, 208, 0.16), rgba(43, 245, 208, 0.05));
   color: var(--cyan);
   cursor: pointer;
   font-family: var(--f-disp);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.14em;
-  clip-path: polygon(
-    9px 0,
-    100% 0,
-    100% calc(100% - 9px),
-    calc(100% - 9px) 100%,
-    0 100%,
-    0 9px
-  );
+  clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
 }
 .btn:active {
   background: rgba(43, 245, 208, 0.28);

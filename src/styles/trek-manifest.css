@@ -93,11 +93,7 @@
 .mgrp h3 .ln {
   flex: 1;
   height: 1px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--line) 0 3px,
-    transparent 3px 7px
-  );
+  background: repeating-linear-gradient(90deg, var(--line) 0 3px, transparent 3px 7px);
 }
 .mgrp h3 .g {
   color: var(--cyan-dim);
@@ -222,13 +218,6 @@
   opacity: 0;
   pointer-events: none;
   transform: translateX(-50%);
-  clip-path: polygon(
-    8px 0,
-    100% 0,
-    100% calc(100% - 8px),
-    calc(100% - 8px) 100%,
-    0 100%,
-    0 8px
-  );
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   white-space: nowrap;
 }

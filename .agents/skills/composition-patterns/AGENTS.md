@@ -55,15 +55,7 @@ unmaintainable conditional logic. Use composition instead.
 **Incorrect: boolean props create exponential complexity**
 
 ```tsx
-function Composer({
-  onSubmit,
-  isThread,
-  channelId,
-  isDMThread,
-  dmId,
-  isEditing,
-  isForwarding,
-}: Props) {
+function Composer({ onSubmit, isThread, channelId, isDMThread, dmId, isEditing, isForwarding }: Props) {
   return (
     <form>
       <Header />
@@ -73,13 +65,7 @@ function Composer({
       ) : isThread ? (
         <AlsoSendToChannelField id={channelId} />
       ) : null}
-      {isEditing ? (
-        <EditActions />
-      ) : isForwarding ? (
-        <ForwardActions />
-      ) : (
-        <DefaultActions />
-      )}
+      {isEditing ? <EditActions /> : isForwarding ? <ForwardActions /> : <DefaultActions />}
       <Footer onSubmit={onSubmit} />
     </form>
   )
@@ -187,11 +173,7 @@ function Composer({
 const ComposerContext = createContext<ComposerContextValue | null>(null)
 
 function ComposerProvider({ children, state, actions, meta }: ProviderProps) {
-  return (
-    <ComposerContext value={{ state, actions, meta }}>
-      {children}
-    </ComposerContext>
-  )
+  return <ComposerContext value={{ state, actions, meta }}>{children}</ComposerContext>
 }
 
 function ComposerFrame({ children }: { children: React.ReactNode }) {
@@ -237,7 +219,11 @@ const Composer = {
 **Usage:**
 
 ```tsx
-<Composer.Provider state={state} actions={actions} meta={meta}>
+<Composer.Provider
+  state={state}
+  actions={actions}
+  meta={meta}
+>
   <Composer.Frame>
     <Composer.Header />
     <Composer.Input />
@@ -294,13 +280,7 @@ function ChannelComposer({ channelId }: { channelId: string }) {
 
 ```tsx
 // Provider handles all state management details
-function ChannelProvider({
-  channelId,
-  children,
-}: {
-  channelId: string
-  children: React.ReactNode
-}) {
+function ChannelProvider({ channelId, children }: { channelId: string; children: React.ReactNode }) {
   const { state, update, submit } = useGlobalChannel(channelId)
   const inputRef = useRef(null)
 
@@ -361,7 +341,10 @@ function ChannelProvider({ channelId, children }) {
   const { state, update, submit } = useGlobalChannel(channelId)
 
   return (
-    <Composer.Provider state={state} actions={{ update, submit }}>
+    <Composer.Provider
+      state={state}
+      actions={{ update, submit }}
+    >
       {children}
     </Composer.Provider>
   )
@@ -394,7 +377,12 @@ dependency-injectable.
 function ComposerInput() {
   // Tightly coupled to a specific hook
   const { input, setInput } = useChannelComposerState()
-  return <TextInput value={input} onChangeText={setInput} />
+  return (
+    <TextInput
+      value={input}
+      onChangeText={setInput}
+    />
+  )
 }
 ```
 
@@ -548,7 +536,12 @@ function ForwardButton() {
 // This preview lives OUTSIDE Composer.Frame but can read composer's state!
 function MessagePreview() {
   const { state } = use(ComposerContext)
-  return <Preview message={state.input} attachments={state.attachments} />
+  return (
+    <Preview
+      message={state.input}
+      attachments={state.attachments}
+    />
+  )
 }
 ```
 
@@ -721,7 +714,7 @@ itself.
 <Composer
   isThread
   isEditing={false}
-  channelId='abc'
+  channelId="abc"
   showAttachments
   showFormatting={false}
 />
@@ -860,7 +853,7 @@ function ComposerFrame({ children }: { children: React.ReactNode }) {
 }
 
 function ComposerFooter({ children }: { children: React.ReactNode }) {
-  return <footer className='flex'>{children}</footer>
+  return <footer className="flex">{children}</footer>
 }
 
 // Usage is flexible
@@ -883,7 +876,12 @@ return (
 // Render props work well when you need to pass data back
 <List
   data={items}
-  renderItem={({ item, index }) => <Item item={item} index={index} />}
+  renderItem={({ item, index }) => (
+    <Item
+      item={item}
+      index={index}
+    />
+  )}
 />
 ```
 
@@ -911,7 +909,12 @@ In React 19, `ref` is now a regular prop (no `forwardRef` wrapper needed), and `
 
 ```tsx
 const ComposerInput = forwardRef<TextInput, Props>((props, ref) => {
-  return <TextInput ref={ref} {...props} />
+  return (
+    <TextInput
+      ref={ref}
+      {...props}
+    />
+  )
 })
 ```
 
@@ -919,7 +922,12 @@ const ComposerInput = forwardRef<TextInput, Props>((props, ref) => {
 
 ```tsx
 function ComposerInput({ ref, ...props }: Props & { ref?: React.Ref<TextInput> }) {
-  return <TextInput ref={ref} {...props} />
+  return (
+    <TextInput
+      ref={ref}
+      {...props}
+    />
+  )
 }
 ```
 

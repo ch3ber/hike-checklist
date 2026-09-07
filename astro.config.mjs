@@ -1,11 +1,11 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from 'astro/config'
 
-import react from '@astrojs/react';
+import react from '@astrojs/react'
 
-import vercel from '@astrojs/vercel';
+import vercel from '@astrojs/vercel'
 
-import tailwindcss from '@tailwindcss/vite';
+import tailwindcss from '@tailwindcss/vite'
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,6 +14,6 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
-    resolve: { alias: { "@DB": new URL("./src/DB", import.meta.url).pathname } }
-  }
-});
+    resolve: { alias: { '@DB': new URL('./src/DB', import.meta.url).pathname } },
+  },
+})

@@ -9,9 +9,9 @@
   --amber: #ffb020;
   --text: #dcd9ea;
   --muted: #6e6790;
-  --f-disp: "Orbitron", ui-monospace, monospace;
-  --f-mono: "Share Tech Mono", ui-monospace, monospace;
-  --f-ui: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+  --f-disp: 'Orbitron', ui-monospace, monospace;
+  --f-mono: 'Share Tech Mono', ui-monospace, monospace;
+  --f-ui: 'Chakra Petch', 'Segoe UI', system-ui, sans-serif;
 }
 
 * {
@@ -33,7 +33,7 @@ body {
   padding-bottom: calc(96px + env(safe-area-inset-bottom));
 }
 body::before {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
   z-index: 0;
@@ -45,16 +45,12 @@ body::before {
   mask-image: radial-gradient(circle at 50% 18%, #000 0%, transparent 85%);
 }
 body::after {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  background: repeating-linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.14) 0 1px,
-    transparent 1px 3px
-  );
+  background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.14) 0 1px, transparent 1px 3px);
   opacity: 0.35;
   mix-blend-mode: multiply;
 }
@@ -83,12 +79,7 @@ button {
   z-index: 60;
   padding-top: env(safe-area-inset-top);
   border-bottom: 1px solid var(--line);
-  background: linear-gradient(
-    180deg,
-    #07050e 0%,
-    #07050ef2 72%,
-    #07050ecc 100%
-  );
+  background: linear-gradient(180deg, #07050e 0%, #07050ef2 72%, #07050ecc 100%);
   backdrop-filter: blur(9px);
 }
 .hud-in {
@@ -116,11 +107,7 @@ button {
 .hud-top .sep {
   flex: 1;
   height: 1px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--line) 0 4px,
-    transparent 4px 8px
-  );
+  background: repeating-linear-gradient(90deg, var(--line) 0 4px, transparent 4px 8px);
 }
 .hud-mid {
   display: flex;
@@ -216,7 +203,7 @@ button {
   color: var(--cyan);
 }
 .chip.on::before {
-  content: "▸ ";
+  content: '▸ ';
 }
 .prof .hint {
   color: #3d3660;

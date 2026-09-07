@@ -1,13 +1,20 @@
 type ActionDockProps = {
-  onOpenManifest: () => void;
-  onReset: () => void;
-};
+  onOpenManifest: () => void
+  onReset: () => void
+}
 
 export function ActionDock({ onOpenManifest, onReset }: ActionDockProps) {
   return (
-    <nav className="dock" aria-label="Acciones de la lista">
+    <nav
+      className="dock"
+      aria-label="Acciones de la lista"
+    >
       <div className="dock-in">
-        <button className="btn" type="button" onClick={onOpenManifest}>
+        <button
+          className="btn"
+          type="button"
+          onClick={onOpenManifest}
+        >
           VER CARGA
         </button>
         <button
@@ -21,5 +28,5 @@ export function ActionDock({ onOpenManifest, onReset }: ActionDockProps) {
         </button>
       </div>
     </nav>
-  );
+  )
 }

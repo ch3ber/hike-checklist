@@ -21,7 +21,12 @@ dependency-injectable.
 function ComposerInput() {
   // Tightly coupled to a specific hook
   const { input, setInput } = useChannelComposerState()
-  return <TextInput value={input} onChangeText={setInput} />
+  return (
+    <TextInput
+      value={input}
+      onChangeText={setInput}
+    />
+  )
 }
 ```
 
@@ -179,7 +184,12 @@ function ForwardButton() {
 // This preview lives OUTSIDE Composer.Frame but can read composer's state!
 function MessagePreview() {
   const { state } = use(ComposerContext)
-  return <Preview message={state.input} attachments={state.attachments} />
+  return (
+    <Preview
+      message={state.input}
+      attachments={state.attachments}
+    />
+  )
 }
 ```
 

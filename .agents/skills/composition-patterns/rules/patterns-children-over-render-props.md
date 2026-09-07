@@ -56,7 +56,7 @@ function ComposerFrame({ children }: { children: React.ReactNode }) {
 }
 
 function ComposerFooter({ children }: { children: React.ReactNode }) {
-  return <footer className='flex'>{children}</footer>
+  return <footer className="flex">{children}</footer>
 }
 
 // Usage is flexible
@@ -79,7 +79,12 @@ return (
 // Render props work well when you need to pass data back
 <List
   data={items}
-  renderItem={({ item, index }) => <Item item={item} index={index} />}
+  renderItem={({ item, index }) => (
+    <Item
+      item={item}
+      index={index}
+    />
+  )}
 />
 ```
 

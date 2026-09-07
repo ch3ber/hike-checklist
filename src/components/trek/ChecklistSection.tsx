@@ -1,67 +1,55 @@
-import { animate, stagger } from "animejs";
-import { useRef, type Dispatch, type SetStateAction } from "react";
-import type {
-  SectionStats,
-  TrekItem,
-  TrekSection,
-  TrekState,
-} from "../../types/trek";
-import { AddItemForm } from "./AddItemForm";
-import { ChecklistItem } from "./ChecklistItem";
-import { formatPreciseWeight } from "./trek-utils";
+import { animate, stagger } from 'animejs'
+import { useRef, type Dispatch, type SetStateAction } from 'react'
+import type { SectionStats, TrekItem, TrekSection, TrekState } from '../../types/trek'
+import { AddItemForm } from './AddItemForm'
+import { ChecklistItem } from './ChecklistItem'
+import { formatPreciseWeight } from './trek-utils'
 
 type ChecklistSectionProps = {
-  section: TrekSection;
-  stats: SectionStats;
-  state: TrekState;
-  setState: Dispatch<SetStateAction<TrekState>>;
-  onMessage: (message: string) => void;
-};
+  section: TrekSection
+  stats: SectionStats
+  state: TrekState
+  setState: Dispatch<SetStateAction<TrekState>>
+  onMessage: (message: string) => void
+}
 
-export function ChecklistSection({
-  section,
-  stats,
-  state,
-  setState,
-  onMessage,
-}: ChecklistSectionProps) {
-  const body = useRef<HTMLDivElement>(null);
-  const open = Boolean(state.open[section.id]);
-  const custom = section.type === "custom";
+export function ChecklistSection({ section, stats, state, setState, onMessage }: ChecklistSectionProps) {
+  const body = useRef<HTMLDivElement>(null)
+  const open = Boolean(state.open[section.id])
+  const custom = section.type === 'custom'
 
-  if (section.prof && !state.prof[section.prof]) return null;
+  if (section.prof && !state.prof[section.prof]) return null
 
   const toggle = () => {
-    const nextOpen = !open;
+    const nextOpen = !open
     setState((current) => ({
       ...current,
       open: { ...current.open, [section.id]: nextOpen },
-    }));
-    if (!nextOpen || matchMedia("(prefers-reduced-motion: reduce)").matches)
-      return;
+    }))
+    if (!nextOpen || matchMedia('(prefers-reduced-motion: reduce)').matches) return
     requestAnimationFrame(() => {
-      if (!body.current) return;
-      animate(body.current.querySelectorAll(".row"), {
+      if (!body.current) return
+      animate(body.current.querySelectorAll('.row'), {
         opacity: [0, 1],
         translateX: [-14, 0],
         duration: 300,
         delay: stagger(20),
-        ease: "outQuad",
-      });
-    });
-  };
+        ease: 'outQuad',
+      })
+    })
+  }
 
   const addItem = (item: TrekItem) => {
     setState((current) => ({
       ...current,
       extra: [...current.extra, item],
-    }));
-    onMessage("Agregado a Extras");
-  };
+    }))
+    onMessage('Agregado a Extras')
+  }
 
   return (
     <section
-      className={`sec ${open ? "open" : ""} ${custom ? "custom" : ""}`}
+      className={`sec ${open ? 'open' : ''} ${custom ? 'custom' : ''}`}
       data-profile={section.prof}
     >
       <button
@@ -76,8 +64,8 @@ export function ChecklistSection({
             {stats.done} de {stats.total} listos
             {stats.off ? (
               <span className="dsc">
-                {" "}
-                · {stats.off} descartado{stats.off > 1 ? "s" : ""}
+                {' '}
+                · {stats.off} descartado{stats.off > 1 ? 's' : ''}
               </span>
             ) : null}
           </span>
@@ -88,11 +76,12 @@ export function ChecklistSection({
         <span className="caret" />
       </button>
       {open ? (
-        <div className="sb" ref={body}>
+        <div
+          className="sb"
+          ref={body}
+        >
           {custom && !section.items.length ? (
-            <div className="mt">
-              Vacío. Agrega lo que lleves fuera de la lista base.
-            </div>
+            <div className="mt">Vacío. Agrega lo que lleves fuera de la lista base.</div>
           ) : null}
           {section.items.map((item) => (
             <ChecklistItem
@@ -104,10 +93,13 @@ export function ChecklistSection({
             />
           ))}
           {custom ? (
-            <AddItemForm onAdd={addItem} onMessage={onMessage} />
+            <AddItemForm
+              onAdd={addItem}
+              onMessage={onMessage}
+            />
           ) : null}
         </div>
       ) : null}
     </section>
-  );
+  )
 }

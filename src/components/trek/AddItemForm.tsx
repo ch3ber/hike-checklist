@@ -1,36 +1,34 @@
-import { useState } from "react";
-import type { TrekItem } from "../../types/trek";
+import { useState } from 'react'
+import type { TrekItem } from '../../types/trek'
 
 type AddItemFormProps = {
-  onAdd: (item: TrekItem) => void;
-  onMessage: (message: string) => void;
-};
+  onAdd: (item: TrekItem) => void
+  onMessage: (message: string) => void
+}
 
 export function AddItemForm({ onAdd, onMessage }: AddItemFormProps) {
-  const [name, setName] = useState("");
-  const [weight, setWeight] = useState("");
-  const [quantity, setQuantity] = useState("1");
+  const [name, setName] = useState('')
+  const [weight, setWeight] = useState('')
+  const [quantity, setQuantity] = useState('1')
 
   const addItem = () => {
-    const itemName = name.trim();
+    const itemName = name.trim()
     if (!itemName) {
-      onMessage("Ponle un nombre al ítem");
-      return;
+      onMessage('Ponle un nombre al ítem')
+      return
     }
-    const itemQuantity = Math.max(1, Number.parseInt(quantity, 10) || 1);
+    const itemQuantity = Math.max(1, Number.parseInt(quantity, 10) || 1)
     const item: TrekItem = {
       id: `ex${Date.now().toString(36)}${Math.floor(Math.random() * 900 + 100)}`,
       n: itemName,
       w: Math.max(0, Number.parseFloat(weight) || 0),
-      ...(itemQuantity > 1
-        ? { q: { u: "piezas", d: itemQuantity, s: 1, min: 0 } }
-        : {}),
-    };
-    onAdd(item);
-    setName("");
-    setWeight("");
-    setQuantity("1");
-  };
+      ...(itemQuantity > 1 ? { q: { u: 'piezas', d: itemQuantity, s: 1, min: 0 } } : {}),
+    }
+    onAdd(item)
+    setName('')
+    setWeight('')
+    setQuantity('1')
+  }
 
   return (
     <div className="addf">
@@ -40,7 +38,7 @@ export function AddItemForm({ onAdd, onMessage }: AddItemFormProps) {
         placeholder="Nombre del ítem"
         value={name}
         onChange={(event) => setName(event.target.value)}
-        onKeyDown={(event) => event.key === "Enter" && addItem()}
+        onKeyDown={(event) => event.key === 'Enter' && addItem()}
       />
       <div className="afr">
         <input
@@ -64,10 +62,14 @@ export function AddItemForm({ onAdd, onMessage }: AddItemFormProps) {
           value={quantity}
           onChange={(event) => setQuantity(event.target.value)}
         />
-        <button className="afb" type="button" onClick={addItem}>
+        <button
+          className="afb"
+          type="button"
+          onClick={addItem}
+        >
           AGREGAR
         </button>
       </div>
     </div>
-  );
+  )
 }

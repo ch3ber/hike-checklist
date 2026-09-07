@@ -35,13 +35,7 @@ function ChannelComposer({ channelId }: { channelId: string }) {
 
 ```tsx
 // Provider handles all state management details
-function ChannelProvider({
-  channelId,
-  children,
-}: {
-  channelId: string
-  children: React.ReactNode
-}) {
+function ChannelProvider({ channelId, children }: { channelId: string; children: React.ReactNode }) {
   const { state, update, submit } = useGlobalChannel(channelId)
   const inputRef = useRef(null)
 
@@ -102,7 +96,10 @@ function ChannelProvider({ channelId, children }) {
   const { state, update, submit } = useGlobalChannel(channelId)
 
   return (
-    <Composer.Provider state={state} actions={{ update, submit }}>
+    <Composer.Provider
+      state={state}
+      actions={{ update, submit }}
+    >
       {children}
     </Composer.Provider>
   )

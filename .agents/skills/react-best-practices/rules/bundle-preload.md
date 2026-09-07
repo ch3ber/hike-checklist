@@ -37,13 +37,11 @@ function EditorButton({ onClick }: { onClick: () => void }) {
 function FlagsProvider({ children, flags }: Props) {
   useEffect(() => {
     if (flags.editorEnabled && typeof window !== 'undefined') {
-      void import('./monaco-editor').then(mod => mod.init())
+      void import('./monaco-editor').then((mod) => mod.init())
     }
   }, [flags.editorEnabled])
 
-  return <FlagsContext.Provider value={flags}>
-    {children}
-  </FlagsContext.Provider>
+  return <FlagsContext.Provider value={flags}>{children}</FlagsContext.Provider>
 }
 ```
 

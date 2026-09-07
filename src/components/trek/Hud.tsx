@@ -1,45 +1,43 @@
-import { animate } from "animejs";
-import { useEffect, useRef } from "react";
-import type { TrekTotals } from "../../types/trek";
-import { formatWeight } from "./trek-utils";
+import { animate } from 'animejs'
+import { useEffect, useRef } from 'react'
+import type { TrekTotals } from '../../types/trek'
+import { formatWeight } from './trek-utils'
 
 type HudProps = {
-  totals: TrekTotals;
-};
+  totals: TrekTotals
+}
 
 export function Hud({ totals }: HudProps) {
-  const weight = useRef<HTMLDivElement>(null);
-  const animatedWeight = useRef(0);
-  const percentage = totals.total
-    ? Math.round((totals.done / totals.total) * 100)
-    : 0;
+  const weight = useRef<HTMLDivElement>(null)
+  const animatedWeight = useRef(0)
+  const percentage = totals.total ? Math.round((totals.done / totals.total) * 100) : 0
   const date = new Date()
-    .toLocaleDateString("es-MX", { day: "2-digit", month: "short" })
+    .toLocaleDateString('es-MX', { day: '2-digit', month: 'short' })
     .toUpperCase()
-    .replace(".", "");
+    .replace('.', '')
 
   useEffect(() => {
-    if (!weight.current) return;
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      animatedWeight.current = totals.kg;
-      weight.current.textContent = formatWeight(totals.kg);
-      return;
+    if (!weight.current) return
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      animatedWeight.current = totals.kg
+      weight.current.textContent = formatWeight(totals.kg)
+      return
     }
 
-    const counter = { value: animatedWeight.current };
+    const counter = { value: animatedWeight.current }
     const animation = animate(counter, {
       value: totals.kg,
       duration: 520,
-      ease: "outExpo",
+      ease: 'outExpo',
       onUpdate: () => {
-        animatedWeight.current = counter.value;
+        animatedWeight.current = counter.value
         if (weight.current) {
-          weight.current.textContent = formatWeight(counter.value);
+          weight.current.textContent = formatWeight(counter.value)
         }
       },
-    });
-    return () => animation.cancel();
-  }, [totals.kg]);
+    })
+    return () => animation.cancel()
+  }, [totals.kg])
 
   return (
     <header className="hud">
@@ -51,7 +49,10 @@ export function Hud({ totals }: HudProps) {
           <span>{date}</span>
         </div>
         <div className="hud-mid">
-          <div className="kg" ref={weight}>
+          <div
+            className="kg"
+            ref={weight}
+          >
             0.00
           </div>
           <div className="kg-u">KG</div>
@@ -60,9 +61,9 @@ export function Hud({ totals }: HudProps) {
               <b>{totals.done}</b> ítems cargados
             </div>
             <div>
-              <b>{percentage}%</b> ·{" "}
+              <b>{percentage}%</b> ·{' '}
               <span className="off">
-                {totals.off} descartado{totals.off === 1 ? "" : "s"}
+                {totals.off} descartado{totals.off === 1 ? '' : 's'}
               </span>
             </div>
           </div>
@@ -72,14 +73,14 @@ export function Hud({ totals }: HudProps) {
         </div>
         {totals.ghost ? (
           <div className="warn on">
-            ⚠ {totals.ghost} ítem{totals.ghost > 1 ? "s marcados" : " marcado"}{" "}
-            en Frío, que está apagado. No cuenta
-            {totals.ghost > 1 ? "n" : ""} en el peso.
+            ⚠ {totals.ghost} ítem{totals.ghost > 1 ? 's marcados' : ' marcado'} en Frío, que está apagado. No
+            cuenta
+            {totals.ghost > 1 ? 'n' : ''} en el peso.
           </div>
         ) : (
           <div className="warn" />
         )}
       </div>
     </header>
-  );
+  )
 }
