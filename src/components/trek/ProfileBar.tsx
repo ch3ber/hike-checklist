@@ -32,6 +32,10 @@ export function ProfileBar({ state, setState }: ProfileBarProps) {
 
   return (
     <div className="prof">
+      <span className="prof-code">
+        <small>MOD//CLIMA</small>
+        <b>01</b>
+      </span>
       {PROFILES.map((profile) => (
         <button
           key={profile.id}
@@ -43,7 +47,7 @@ export function ProfileBar({ state, setState }: ProfileBarProps) {
           {profile.name}
         </button>
       ))}
-      <span className="hint">añade equipo para frío</span>
+      <span className="hint">equipo específico para frío</span>
     </div>
   )
 }

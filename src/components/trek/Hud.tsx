@@ -43,32 +43,56 @@ export function Hud({ totals, saveStatus }: HudProps) {
   return (
     <header className="hud">
       <div className="hud-in">
+        <div className="hud-brandline">
+          <div className="brand-lockup">
+            <span
+              className="brand-mark"
+              aria-hidden="true"
+            />
+            <div>
+              <strong className="brand-name">TREK//SYS</strong>
+              <span className="brand-sub">CHECKLIST DE CAMPO · MX</span>
+            </div>
+          </div>
+          <div className="hud-node">
+            <span>NODO</span>
+            <strong>01</strong>
+          </div>
+        </div>
         <div className="hud-top">
           <span className="dot" />
-          <span>TREK//SYS</span>
+          <span>CANAL LOCAL</span>
           <span className="sep" />
           <span className={`save-state ${saveStatus}`}>
             {saveStatus === 'saving' ? 'GUARDANDO' : saveStatus === 'saved' ? 'GUARDADO' : 'CARGANDO'}
           </span>
-          <span>{date}</span>
+          <span className="hud-date">{date}</span>
         </div>
         <div className="hud-mid">
-          <div
-            className="kg"
-            ref={weight}
-          >
-            0.00
+          <div className="load-readout">
+            <span className="readout-label">PESO // EMPACADOS</span>
+            <div className="readout-value">
+              <div
+                className="kg"
+                ref={weight}
+              >
+                0.00
+              </div>
+              <div className="kg-u">KG</div>
+            </div>
           </div>
-          <div className="kg-u">KG</div>
           <div className="hud-stats">
             <div>
-              <b>{totals.done}</b> ítems empacados
+              <span>EMPACADOS</span>
+              <b>{String(totals.done).padStart(2, '0')}</b>
             </div>
             <div>
-              <b>{percentage}%</b> ·{' '}
-              <span className="off">
-                {totals.off} descartado{totals.off === 1 ? '' : 's'}
-              </span>
+              <span>PROGRESO</span>
+              <b>{String(percentage).padStart(2, '0')}%</b>
+            </div>
+            <div className="hud-discarded">
+              <span>DESCARTADOS</span>
+              <b>{String(totals.off).padStart(2, '0')}</b>
             </div>
           </div>
         </div>
@@ -81,6 +105,7 @@ export function Hud({ totals, saveStatus }: HudProps) {
           aria-valuenow={percentage}
         >
           <i style={{ width: `${percentage}%` }} />
+          <span aria-hidden="true" />
         </div>
         {totals.ghost ? (
           <div className="warn on">

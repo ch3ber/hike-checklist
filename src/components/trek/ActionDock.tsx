@@ -15,7 +15,13 @@ export function ActionDock({ onOpenManifest, onReset }: ActionDockProps) {
           type="button"
           onClick={onOpenManifest}
         >
-          VER EMPACADOS
+          <span>VER EMPACADOS</span>
+          <span
+            className="btn-arrow"
+            aria-hidden="true"
+          >
+            ↗
+          </span>
         </button>
         <button
           className="btn btn-g"

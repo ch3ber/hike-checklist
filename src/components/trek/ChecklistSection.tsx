@@ -6,6 +6,7 @@ import { ChecklistItem } from './ChecklistItem'
 import { getDisplayWeight } from './trek-utils'
 
 type ChecklistSectionProps = {
+  index: number
   section: TrekSection
   stats: SectionStats
   state: TrekState
@@ -15,6 +16,7 @@ type ChecklistSectionProps = {
 }
 
 export function ChecklistSection({
+  index,
   section,
   stats,
   state,
@@ -71,6 +73,12 @@ export function ChecklistSection({
         disabled={forceOpen}
         onClick={toggle}
       >
+        <span
+          className="sh-code"
+          aria-hidden="true"
+        >
+          {String(index + 1).padStart(2, '0')}
+        </span>
         <span className="sh-t">
           <span className="sh-name">{section.t}</span>
           <span className="sh-meta">

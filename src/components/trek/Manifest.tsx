@@ -116,7 +116,10 @@ export function Manifest({ sections, state, onClose, onMessage }: ManifestProps)
         ref={dialog}
       >
         <div className="mo-h">
-          <h2 id="manifest-title">EQUIPO EMPACADO</h2>
+          <div>
+            <span className="mo-code">TRK//MANIFEST-01</span>
+            <h2 id="manifest-title">EQUIPO EMPACADO</h2>
+          </div>
           <button
             className="x"
             type="button"

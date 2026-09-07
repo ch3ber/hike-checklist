@@ -143,9 +143,10 @@ export default function TrekSystem() {
               onFilterChange={setFilter}
             />
             <div className="section-list">
-              {visibleSections.map((section) => (
+              {visibleSections.map((section, sectionIndex) => (
                 <ChecklistSection
                   key={section.id}
+                  index={sectionIndex}
                   section={section}
                   stats={totals.bySection[section.id]}
                   state={state}

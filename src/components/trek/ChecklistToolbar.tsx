@@ -27,6 +27,12 @@ export function ChecklistToolbar({
       className="tools"
       aria-label="Buscar y filtrar el checklist"
     >
+      <div className="tools-head">
+        <span>IDX//EQUIPO</span>
+        <span className="tools-rule" />
+        <strong>{String(resultCount).padStart(2, '0')}</strong>
+        <small>REGISTROS</small>
+      </div>
       <div className="search-wrap">
         <span
           className="search-signal"
@@ -42,7 +48,7 @@ export function ChecklistToolbar({
           id="item-search"
           className="search"
           type="search"
-          placeholder="Buscar equipo…"
+          placeholder="Buscar en el inventario…"
           autoComplete="off"
           value={query}
           onChange={(event) => onQueryChange(event.target.value)}
