@@ -3,14 +3,12 @@
     "id": "ropa",
     "t": "Ropa",
     "items": [
-      { "id": "r1", "n": "Camisa de manga larga", "w": 0.25 },
-      { "id": "r2", "n": "Playera base transpirable", "w": 0.15 },
-      { "id": "r3", "n": "Pantalón de senderismo", "w": 0.35 },
-      { "id": "r4", "n": "Ropa interior técnica", "w": 0.1 },
-      { "id": "r5", "n": "Cinturón táctico", "w": 0.15 },
-      { "id": "r6", "n": "Rompevientos naranja", "w": 0.3 },
+      { "id": "r1", "n": "Playera de manga larga", "w": 0.25 },
+      { "id": "r2", "n": "Pantalón de senderismo", "w": 0.35 },
+      { "id": "r3", "n": "Cinturón táctico", "w": 0.15 },
+      { "id": "r4", "n": "Rompevientos", "w": 0.3 },
       {
-        "id": "r7",
+        "id": "r5",
         "n": "Capa impermeable",
         "note": "Chamarra o poncho — el rompevientos no cuenta",
         "w": 0.4
@@ -35,8 +33,7 @@
         "note": "En bolsa zip",
         "w": 0.07,
         "q": { "u": "pares", "d": 1, "s": 1, "min": 0 }
-      },
-      { "id": "z5", "n": "Polainas", "w": 0.15 }
+      }
     ]
   },
   {
@@ -59,17 +56,9 @@
       { "id": "q2", "n": "Cubre-mochila", "w": 0.1 },
       { "id": "q3", "n": "Agua cargada", "w": 1, "q": { "u": "litros", "d": 3, "s": 0.5, "min": 0 } },
       { "id": "q4", "n": "Camelback con tubo (vacío)", "w": 0.2 },
-      { "id": "q5", "n": "Termo (vacío)", "w": 0.35 },
-      { "id": "q6", "n": "Filtro de agua", "note": "Sawyer Squeeze o equivalente", "w": 0.09 },
-      { "id": "q7", "n": "Pastillas purificadoras", "w": 0.02 },
+      { "id": "q5", "n": "Termo termico (vacío)", "w": 0.35 },
       { "id": "q8", "n": "Navaja multiusos", "w": 0.15 },
       { "id": "q9", "n": "Linterna frontal", "w": 0.1 },
-      {
-        "id": "q10",
-        "n": "Pilas de repuesto para la frontal",
-        "w": 0.012,
-        "q": { "u": "piezas", "d": 4, "s": 1, "min": 0 }
-      },
       {
         "id": "q11",
         "n": "Bastón de senderismo",
@@ -86,8 +75,6 @@
       },
       { "id": "q14", "n": "Silbato de emergencia", "w": 0.01 },
       { "id": "q15", "n": "Encendedor", "w": 0.02 },
-      { "id": "q16", "n": "Bivy de emergencia", "w": 0.15 },
-      { "id": "q17", "n": "Bolsas ziploc", "w": 0.005, "q": { "u": "piezas", "d": 4, "s": 1, "min": 0 } },
       { "id": "q18", "n": "Bolsas de plástico", "w": 0.01, "q": { "u": "piezas", "d": 2, "s": 1, "min": 0 } }
     ]
   },
@@ -98,19 +85,18 @@
       { "id": "c1", "n": "Guantes tácticos", "w": 0.12 },
       { "id": "c2", "n": "Lentes de sol con aumento", "w": 0.03 },
       { "id": "c3", "n": "Cordón retenedor para lentes", "w": 0.01 },
-      { "id": "c4", "n": "Estuche para lentes", "w": 0.06 },
       { "id": "c5", "n": "Dron DJI Mini 4K", "note": "Peso de fábrica 249 g", "w": 0.249 },
       { "id": "c6", "n": "Baterías para dron", "w": 0.077, "q": { "u": "piezas", "d": 2, "s": 1, "min": 0 } },
       { "id": "c7", "n": "Control del dron", "w": 0.39 },
       {
         "id": "c8",
         "n": "Power bank Ugreen 25 000 mAh",
-        "note": "Estimado ~550 g — verifícalo en báscula",
         "w": 0.55
       },
       { "id": "c9", "n": "Cable USB-C", "w": 0.03, "q": { "u": "piezas", "d": 2, "s": 1, "min": 0 } },
       { "id": "c10", "n": "Cartera", "w": 0.1 },
-      { "id": "c11", "n": "Linterna de mano", "w": 0.12 }
+      { "id": "c11", "n": "Linterna de mano", "w": 0.12 },
+      { "id": "c12", "n": "Repelente de insectos × 1", "w": 0.12 }
     ]
   },
   {
@@ -127,13 +113,9 @@
         "w": 0
       },
       { "id": "n5", "n": "Brújula base plate", "w": 0.04 },
-      { "id": "n6", "n": "Itinerario impreso con puntos de escape", "w": 0.01 },
       { "id": "n7", "n": "Radio Baofeng K5 Plus", "note": "CH1 / CH2 / CH3 verificados", "w": 0.25 },
       { "id": "n8", "n": "Porta radio", "w": 0.08 },
-      { "id": "n9", "n": "Batería de repuesto del radio", "w": 0.09 },
-      { "id": "n10", "n": "Antena de repuesto para radio", "w": 0.06 },
-      { "id": "n11", "n": "Garmin inReach Mini 3", "w": 0.1 },
-      { "id": "n12", "n": "Cable de carga del Garmin", "w": 0.02 }
+      { "id": "n10", "n": "Antena de alta ganacia para radio", "w": 0.1 }
     ]
   },
   {
@@ -241,7 +223,6 @@
       { "id": "i32", "n": "Manta térmica × 1", "w": 0.06 },
       { "id": "i33", "n": "Ficha médica plastificada × 1", "note": "tuyo", "w": 0.005 },
       { "id": "i34", "n": "Libreta y lápiz × 1", "note": "tuyo", "w": 0.05 },
-      { "id": "i35", "n": "Repelente de insectos × 1", "note": "tuyo", "w": 0.12 },
       { "id": "i36", "n": "Pomada para dolor", "w": 0.06 },
       { "id": "i37", "n": "Rodillera", "note": "Solo la que corresponda a la lesión", "w": 0.12 }
     ]
