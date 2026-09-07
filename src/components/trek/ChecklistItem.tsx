@@ -1,5 +1,11 @@
 import { animate } from 'animejs'
-import { useRef, type Dispatch, type SetStateAction, type TouchEvent as ReactTouchEvent } from 'react'
+import {
+  useEffect,
+  useRef,
+  type Dispatch,
+  type SetStateAction,
+  type TouchEvent as ReactTouchEvent,
+} from 'react'
 import type { TrekItem, TrekState } from '../../types/trek'
 import { getDisplayWeight, getQuantity, getWeight } from './trek-utils'
 
@@ -14,12 +20,20 @@ export function ChecklistItem({ item, custom, state, setState }: ChecklistItemPr
   const row = useRef<HTMLDivElement>(null)
   const inner = useRef<HTMLDivElement>(null)
   const checkbox = useRef<HTMLButtonElement>(null)
+  const layerRelease = useRef<number>(undefined)
   const gesture = useRef({ x: 0, y: 0, dx: 0, dragging: false })
   const checked = Boolean(state.chk[item.id])
   const discarded = Boolean(state.off[item.id])
   const quantity = getQuantity(item, state)
   const weight = getWeight(item, state)
   const displayWeight = getDisplayWeight(weight, true)
+
+  useEffect(
+    () => () => {
+      window.clearTimeout(layerRelease.current)
+    },
+    [],
+  )
 
   const toggleChecked = () => {
     if (discarded) return
@@ -93,7 +107,11 @@ export function ChecklistItem({ item, custom, state, setState }: ChecklistItemPr
       dx: 0,
       dragging: true,
     }
-    if (inner.current) inner.current.style.transition = 'none'
+    if (inner.current) {
+      window.clearTimeout(layerRelease.current)
+      inner.current.style.transition = 'none'
+      inner.current.style.willChange = 'transform'
+    }
   }
 
   const moveSwipe = (event: ReactTouchEvent<HTMLDivElement>) => {
@@ -104,6 +122,7 @@ export function ChecklistItem({ item, custom, state, setState }: ChecklistItemPr
     if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 8) {
       gesture.current.dragging = false
       inner.current.style.transform = ''
+      inner.current.style.willChange = 'auto'
       return
     }
     gesture.current.dx = Math.max(0, Math.min(deltaX, 140))
@@ -116,6 +135,9 @@ export function ChecklistItem({ item, custom, state, setState }: ChecklistItemPr
     gesture.current.dragging = false
     inner.current.style.transition = 'transform .22s cubic-bezier(.2,.8,.2,1)'
     inner.current.style.transform = ''
+    layerRelease.current = window.setTimeout(() => {
+      if (inner.current) inner.current.style.willChange = 'auto'
+    }, 240)
     if (shouldToggle) toggleDiscarded()
   }
 

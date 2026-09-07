@@ -22,14 +22,16 @@ html,
 body {
   margin: 0;
   padding: 0;
+  max-width: 100%;
   background: var(--void);
+  overflow-x: clip;
+  overscroll-behavior-x: none;
 }
 body {
   color: var(--text);
   font-family: var(--f-ui);
   font-size: 15px;
   line-height: 1.45;
-  overflow-x: hidden;
   padding-bottom: calc(96px + env(safe-area-inset-bottom));
 }
 body::before {
@@ -126,6 +128,7 @@ input:focus-visible,
   border-bottom: 1px solid var(--line);
   background: linear-gradient(180deg, #07050e 0%, #07050ef2 72%, #07050ecc 100%);
   backdrop-filter: blur(9px);
+  overflow: clip;
 }
 .hud::after {
   content: '';
@@ -375,17 +378,38 @@ input:focus-visible,
   }
 }
 @media (max-width: 640px) {
+  body::before {
+    animation: none;
+    opacity: 0.72;
+  }
+  body::after {
+    animation: none;
+    mix-blend-mode: normal;
+    opacity: 0.16;
+  }
+  .hud {
+    background: rgba(7, 5, 14, 0.98);
+    backdrop-filter: none;
+  }
   .hud-in {
     padding-top: 7px;
   }
   .kg {
     font-size: 38px;
+    animation: none;
   }
   .hud-stats {
     font-size: 11px;
   }
   .save-state {
     display: none;
+  }
+  .hud-top .dot {
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  .chip.on {
+    animation: none;
+    box-shadow: inset 0 0 14px rgba(43, 245, 208, 0.08);
   }
 }
 @media (prefers-reduced-motion: reduce) {

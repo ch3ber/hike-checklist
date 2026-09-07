@@ -24,6 +24,7 @@ export default function TrekSystem() {
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<ChecklistFilter>('all')
   const root = useRef<HTMLDivElement>(null)
+  const filterAnimationReady = useRef(false)
   const sections = useMemo(() => getSections(state, BASE_SECTIONS), [state.extra])
   const totals = useMemo(() => calculateTotals(sections, state), [sections, state])
   const normalizedQuery = normalizeSearch(query.trim())
@@ -84,6 +85,10 @@ export default function TrekSystem() {
   }, [])
 
   useEffect(() => {
+    if (!filterAnimationReady.current) {
+      filterAnimationReady.current = true
+      return
+    }
     if (!root.current || matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const animation = animate(root.current.querySelectorAll('.sec'), {
       opacity: [0, 1],
