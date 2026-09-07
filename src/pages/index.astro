@@ -19,9 +19,35 @@ import "../styles/trek-sys.css";
     /><link
       href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&family=Share+Tech+Mono&family=Tektur:wght@500;600;700;800&display=swap"
       rel="stylesheet"
-    /><link rel="icon" type="image/svg+xml" href="/favicon.svg" /><link
+    /><meta
+      name="description"
+      content="Checklist personal de senderismo para preparar y controlar tu equipo."
+    /><meta name="application-name" content="TREK//SYS" /><meta
+      name="apple-mobile-web-app-capable"
+      content="yes"
+    /><meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    /><meta name="apple-mobile-web-app-title" content="TREK//SYS" /><link
+      rel="manifest"
+      href="/manifest.webmanifest"
+    /><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" /><link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon.svg"
+    /><link
       rel="icon"
       href="/favicon.ico"
     /></head
-  ><body><TrekSystem client:load /></body>
+  ><body
+    ><TrekSystem client:load /><script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js').catch(() => {
+            // La app sigue funcionando en navegadores sin registro de PWA.
+          })
+        })
+      }
+    </script></body
+  >
 </html>

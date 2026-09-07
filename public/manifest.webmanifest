@@ -1,0 +1,33 @@
+{
+  "id": "/",
+  "name": "TREK//SYS — Checklist de campo",
+  "short_name": "TREK//SYS",
+  "description": "Checklist personal de senderismo para preparar y controlar tu equipo.",
+  "lang": "es-MX",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#050708",
+  "theme_color": "#050708",
+  "categories": ["utilities", "lifestyle"],
+  "icons": [
+    {
+      "src": "/icons/treksys-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/treksys-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/treksys-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
