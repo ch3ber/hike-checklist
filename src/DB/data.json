@@ -1,5 +1,13 @@
 [
   {
+    "id": "personales",
+    "t": "Artículos personales",
+    "items": [
+      { "id": "n1", "n": "Celular", "w": 0.2 },
+      { "id": "c10", "n": "Cartera", "w": 0.1 }
+    ]
+  },
+  {
     "id": "ropa",
     "t": "Ropa",
     "items": [
@@ -94,7 +102,6 @@
         "w": 0.55
       },
       { "id": "c9", "n": "Cable USB-C", "w": 0.03, "q": { "u": "piezas", "d": 2, "s": 1, "min": 0 } },
-      { "id": "c10", "n": "Cartera", "w": 0.1 },
       { "id": "c11", "n": "Linterna de mano", "w": 0.12 },
       { "id": "c12", "n": "Repelente de insectos × 1", "w": 0.12 }
     ]
@@ -103,7 +110,6 @@
     "id": "nav",
     "t": "Navegación y comunicación",
     "items": [
-      { "id": "n1", "n": "Celular", "w": 0.2 },
       { "id": "n2", "n": "Bolsa impermeable para celular", "w": 0.04 },
       { "id": "n3", "n": "Mapa topográfico impreso", "note": "INEGI 1:50 000, en bolsa zip", "w": 0.05 },
       {
