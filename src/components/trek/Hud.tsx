@@ -1,6 +1,7 @@
 import { animate } from 'animejs'
 import { useEffect, useRef } from 'react'
 import type { TrekTotals } from '../../types/trek'
+import { ScrambledNumber } from './ScrambledNumber'
 import { formatWeight } from './trek-utils'
 
 type HudProps = {
@@ -84,15 +85,24 @@ export function Hud({ totals, saveStatus }: HudProps) {
           <div className="hud-stats">
             <div>
               <span>EMPACADOS</span>
-              <b>{String(totals.done).padStart(2, '0')}</b>
+              <b>
+                <ScrambledNumber value={totals.done} />
+              </b>
             </div>
             <div>
               <span>PROGRESO</span>
-              <b>{String(percentage).padStart(2, '0')}%</b>
+              <b>
+                <ScrambledNumber
+                  value={percentage}
+                  suffix="%"
+                />
+              </b>
             </div>
             <div className="hud-discarded">
               <span>DESCARTADOS</span>
-              <b>{String(totals.off).padStart(2, '0')}</b>
+              <b>
+                <ScrambledNumber value={totals.off} />
+              </b>
             </div>
           </div>
         </div>

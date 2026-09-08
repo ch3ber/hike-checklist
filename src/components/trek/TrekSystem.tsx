@@ -7,6 +7,7 @@ import { BASE_SECTIONS } from './config'
 import { Hud } from './Hud'
 import { Manifest } from './Manifest'
 import { ProfileBar } from './ProfileBar'
+import { ScrambledNumber } from './ScrambledNumber'
 import { Toast } from './Toast'
 import { calculateTotals, getSections } from './trek-utils'
 import { useTrekState } from './useTrekState'
@@ -52,6 +53,7 @@ export default function TrekSystem() {
     [filter, filtering, normalizedQuery, sections, state.chk, state.off, state.prof],
   )
   const visibleItemCount = visibleSections.reduce((sum, section) => sum + section.items.length, 0)
+  const percentage = totals.total ? Math.round((totals.done / totals.total) * 100) : 0
   const nextSection = sections.find((section) => {
     if (section.prof && !state.prof[section.prof]) return false
     const stats = totals.bySection[section.id]
@@ -181,21 +183,42 @@ export default function TrekSystem() {
                 } as CSSProperties
               }
             >
-              <strong>{totals.total ? Math.round((totals.done / totals.total) * 100) : 0}%</strong>
+              <strong>
+                <ScrambledNumber
+                  value={percentage}
+                  pad={1}
+                  suffix="%"
+                />
+              </strong>
               <span>empacado</span>
             </div>
             <dl className="desk-stats">
               <div>
                 <dt>Empacados</dt>
-                <dd>{totals.done}</dd>
+                <dd>
+                  <ScrambledNumber
+                    value={totals.done}
+                    pad={1}
+                  />
+                </dd>
               </div>
               <div>
                 <dt>Pendientes</dt>
-                <dd>{Math.max(0, totals.total - totals.done)}</dd>
+                <dd>
+                  <ScrambledNumber
+                    value={Math.max(0, totals.total - totals.done)}
+                    pad={1}
+                  />
+                </dd>
               </div>
               <div>
                 <dt>Descartados</dt>
-                <dd>{totals.off}</dd>
+                <dd>
+                  <ScrambledNumber
+                    value={totals.off}
+                    pad={1}
+                  />
+                </dd>
               </div>
             </dl>
             <div className="next-target">
